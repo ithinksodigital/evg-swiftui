@@ -6,12 +6,20 @@
 //
 
 import SwiftUI
+import Evergage
 
 @main
 struct evgswiftuiApp: App {
+    init() {
+        let success = EvergageManager.shared.initialize()
+        print(success ? "🟢 Evergage initialized successfully!" : "🔴 Evergage failed to initialize!")
+    }
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                ContentView()
+            }
         }
     }
 }
