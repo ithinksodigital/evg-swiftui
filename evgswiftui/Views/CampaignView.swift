@@ -9,24 +9,71 @@ struct CampaignView: View {
                 Text(evergageManager.campaignMessage)
                     .font(.title)
                     .padding()
+                
+  
+                
                 Button(action: {
-                    evergageManager.campaignTrackClickthrough(campaign: evergageManager.activeCampaign!)
+                    if let campaign = evergageManager.activeCampaign {
+                        evergageManager.campaignTrackClickthrough(campaign: campaign)
+                    }
                 }) {
-                    Label("Campaign Click", systemImage: "cursorarrow.click")
-                }.buttonStyle(.bordered)
+                    HStack {
+                        Text("Campaign Click")
+                        Image(systemName: "cursorarrow.click")
+                    }
+                    .font(.title2)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.accentColor)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+                }
+                .padding(.horizontal)
+                Button(action: {
+                    if let campaign = evergageManager.activeCampaign {
+                        evergageManager.campaignTrackDismissal(campaign: campaign)
+                    }
+                    
+                }) {
+                    HStack {
+                        Text("Campaign Dismissal")
+                        Image(systemName: "xmark.circle")
+                    }
+                    .font(.title2)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.red)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
 
-       
-      
+                }
+                .padding(.horizontal)
+            
+            
+            
             } else {
+                Button(action: {
+                    evergageManager.trackAction("Viewed Campaign Screen")
+                }) {
+                    HStack {
+                        Text("Trigger Campaign")
+                        Image(systemName: "bolt")
+                    }
+                    .font(.title2)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.green)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+                }
+                .padding(.horizontal)
                 Text("No campaign")
                     .foregroundColor(.gray)
             }
         }
-        .navigationTitle("Campaign View")
         .onAppear {
             // Register a campaign handler for the demo target
-            EvergageManager.shared.registerCampaignHandler(forTarget: "demo")
-            evergageManager.trackAction("Viewed Campaign Screen")
+            evergageManager.registerCampaignHandler(forTarget: "demo")
         }
     }
 }

@@ -17,7 +17,6 @@ class EvergageManager: ObservableObject {
             fatalError("evergage.plist not found in the main bundle")
         }
 
-        // Now load the NSDictionary from the file path
         guard let evergagePlist = NSDictionary(contentsOfFile: evergageFilePath) else {
             fatalError("Failed to load evergage.plist")
         }
@@ -57,7 +56,6 @@ class EvergageManager: ObservableObject {
     
     // MARK: - Campaign Handling
     
-    // Registers a campaign handler for a given target using the setCampaignHandler method in globalContext
     func registerCampaignHandler(forTarget target: String) {
         print("📍 Handler registration for: \(target)")
         let handler: (EVGCampaign) -> Void = { [weak self] campaign in
@@ -68,6 +66,14 @@ class EvergageManager: ObservableObject {
     
     func campaignTrackClickthrough(campaign: EVGCampaign) {
         evergage.globalContext?.trackClickthrough(campaign)
+    }
+    
+    func campaignTrackDismissal(campaign: EVGCampaign) {
+        evergage.globalContext?.trackDismissal(campaign)
+    }
+    
+    func evgAddToCart(item: EVGLineItem) {
+        evergage.globalContext?.add(toCart: item)
     }
     
     /// Processes the received campaign and sets the message to display
